@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrapscrap - Analisis Data Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style kustom untuk meniru aksen biru dari gambar */
+        .title-accent {
+            border-left: 4px solid #3b82f6; /* Tailwind blue-500 */
+            padding-left: 0.75rem;
+        }
+        /* Kelas untuk link navigasi aktif */
+        .active-link {
+            color: white;
+            font-weight: 600;
+            border-bottom: 2px solid #3b82f6; /* blue-500 */
+        }
+        /* Kelas untuk link navigasi non-aktif */
+        .inactive-link {
+            color: #d1d5db; /* gray-300 */
+        }
+        .inactive-link:hover {
+            color: white;
+        }
+        /* Latar belakang hero untuk home (meniru screenshot) */
+        .home-hero-bg {
+            background-color: #1e293b;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold lowercase nav-link" data-page="page-home">scrapscrap</a>
+            
+            <div class="flex space-x-6 items-center">
+                <a href="#" class="nav-link active-link" data-page="page-home">Home</a>
+                <a href="#" class="nav-link inactive-link" data-page="page-tentang">PT. GBB</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        
+        <div id="page-home" class="page-content">
+            <div class="home-hero-bg">
+                <div class="container mx-auto px-6 pt-24 pb-32 text-center text-white">
+                    <h1 class="text-5xl font-bold mb-4">Web Data Insights: Our Findings.</h1>
+                    <p class="text-xl text-gray-200">more than just raw data; it's the culmination of our intensive web extraction operations. We transform complex, unstructured information from across the web into structured, actionable intelligence. Explore our analysis to understand the key trends, patterns, and strategic insights we've uncovered.</p>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 py-12 -mt-16">
+                <div class="flex flex-col lg:flex-row gap-8">
+
+                    <main class="w-full lg:w-2/3 space-y-8">
+                        <section class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-2xl font-semibold mb-5 title-accent">Harga Produk yang Ditawarkan</h2>
+                            <p class="text-gray-600 mb-6">Grafik ini menunjukkan harga 10 produk teratas yang berhasil di-scrapping dari situs target.</p>
+                            <div class="h-96 w-full">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </section>
+                        <section class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-2xl font-semibold mb-6 title-accent">Produk Paling Sering Muncul</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                                    <img src="gift.jpg" alt="Produk 1" class="w-full h-40 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-lg">Gift</h3>
+                                        <p class="text-gray-600 text-sm">Muncul 30 kali</p>
+                                    </div>
+                                </div>
+                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                                    <img src="card.png" alt="Produk 2" class="w-full h-40 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-lg">Card</h3>
+                                        <p class="text-gray-600 text-sm">Muncul 23 kali</p>
+                                    </div>
+                                </div>
+                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                                    <img src="cvv.jpg" alt="Produk 3" class="w-full h-40 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-lg">CVV & Card</h3>
+                                        <p class="text-gray-600 text-sm">Muncul 17 kali</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                                    <img src="idc.jpg" alt="Produk 4" class="w-full h-40 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-lg">IDs</h3>
+                                        <p class="text-gray-600 text-sm">Muncul 14 kali</p>
+                                    </div>
+                                </div>
+                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                                    <img src="pngtree-certificate-icon-isolated-on-abstract-background-png-image_1752108.jpg" alt="Produk 5" class="w-full h-40 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-lg">License</h3>
+                                        <p class="text-gray-600 text-sm">Muncul 13 kali</p>
+                                    </div>
+                                </div>
+                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                                    <img src="license.png" alt="Produk 6" class="w-full h-40 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="font-semibold text-lg">Drivers</h3>
+                                        <p class="text-gray-600 text-sm">Muncul 12 kali</p>
+                                    </div>
+                                </div>
+                                </div>
+                        </section>
+                    </main>
+
+                    <aside class="w-full lg:w-1/3 space-y-8">
+                        <section class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-2xl font-semibold mb-5 title-accent">Profil Perusahaan</h2>
+                            <div class="flex items-center space-x-4 mb-4">
+                                <img src="PT_GBB_LOGO-removebg-preview.png" alt="Logo PT GBB" class="rounded-full w-20 h-20 border-4 border-gray-200">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-800">PT GBB</h3>
+                                    <p class="text-gray-600">Data Intelligence & Security</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700">
+                                PT GBB adalah perusahaan terdepan dalam analisis data dan intelijen siber. Laporan ini disusun untuk memberikan wawasan mendalam...
+                            </p>
+                        </section>
+                        <section class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-2xl font-semibold mb-5 title-accent">Wordcloud Kategori</h2>
+                            <p class="text-gray-600 mb-4">Visualisasi kata yang paling sering muncul dalam deskripsi dan kategori produk.</p>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
+                                <img src="wordcloud.png" alt="Wordcloud" class="w-full rounded">
+                            </div>
+                        </section>
+
+                        <section class="bg-white p-6 rounded-lg shadow-md">
+                            <h2 class="text-2xl font-semibold mb-5 title-accent">Wordcloud Kategori</h2>
+                            <p class="text-gray-600 mb-4">Visualisasi kata yang paling sering muncul dalam deskripsi dan kategori produk.</p>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
+                                <img src="wordcloud 2.png" alt="Wordcloud" class="w-full rounded">
+                            </div>
+                        </section>
+                        </aside>
+                    </div>
+            </div>
+        </div>
+
+        <div id="page-tentang" class="page-content hidden">
+            <div class="bg-slate-800 text-white shadow-lg">
+                <div class="container mx-auto px-6 py-24 text-center">
+                    <h1 class="text-5xl font-bold text-white mb-4">Tentang Kami</h1>
+                    <p class="text-xl text-gray-200">Mengenal PT GBB dan Tim Scrapscrap</p>
+                </div>
+            </div>
+            
+            <div class="container mx-auto px-6 py-16">
+                 <section class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-semibold mb-6 title-accent">PT GBB: Data Intelligence & Security</h2>
+                    <div class="flex flex-col md:flex-row items-center gap-8 mb-8">
+                        <img src="PT_GBB_LOGO-removebg-preview.png" alt="Logo PT GBB" class="rounded-full w-40 h-40 border-8 border-gray-200">
+                        <p class="text-gray-700 text-lg">
+                            PT GBB adalah perusahaan teknologi terdepan yang berfokus pada penyediaan solusi intelijen data dan keamanan siber. Sejak didirikan, kami berkomitmen untuk membantu organisasi menavigasi lanskap digital yang kompleks dengan data yang akurat dan dapat ditindaklanjuti.
+                        </p>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold mb-4">Mision</h3>
+                    <p class="text-gray-700 mb-6">
+                        Memberikan wawasan data yang tak tertandingi melalui teknologi scrapping dan analisis data yang etis dan inovatif, memberdayakan klien kami untuk membuat keputusan yang lebih baik dan lebih aman.
+                    </p>
+
+                    <h3 class="text-2xl font-semibold mb-4">Our Team</h3>
+                    <p class="text-gray-700 mb-6">
+                        Proyek Scrapscrap dipimpin oleh tim analis data, insinyur perangkat lunak, dan pakar keamanan siber yang berdedikasi.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div>
+                            <img src="boys.png" class="w-32 h-32 rounded-full mx-auto mb-2 border-4 border-gray-30M">
+                            <h4 class="font-semibold text-lg">Chilwin</h4>
+                            <p class="text-gray-600">Programmer</p>
+                        </div>
+                        <div>
+                            <img src="boys.png" class="w-32 h-32 rounded-full mx-auto mb-2 border-4 border-gray-300">
+                            <h4 class="font-semibold text-lg">Rivian</h4>
+                            <p class="text-gray-600">Analyst</p>
+                        </div>
+                        <div>
+                            <img src="boys.png" class="w-32 h-32 rounded-full mx-auto mb-2 border-4 border-gray-300">
+                            <h4 class="font-semibold text-lg">Andri</h4>
+                            <p class="text-gray-600">Documentation</p>
+                        </div>
+                    </div>
+                 </section>
+            </div>
+        </div>
+
+        <div id="page-sample" class="page-content hidden">
+            <div class="container mx-auto px-6 py-24 text-center">
+                <h1 class="text-5xl font-bold text-gray-800 mb-4">Sample Page</h1>
+                <p class="text-xl text-gray-600">Ini adalah halaman contoh.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-900 text-gray-400 mt-12 py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 Scrapscrap - PT GBB. Seluruh hak cipta dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data & Konfigurasi Chart.js ---
+        const chartData = {
+            labels: [
+                'Carded Gift Cards', 'Carded Gift Cards', 'Carded Gift Cards', 'Carded Gift Cards', 'Skip to Content', 
+                'Contact Us', 'Shop', 'Login/Register', 'Home', 'Phantomhacker.su'
+            ],
+            datasets: [{
+                label: 'Jumlah Penjualan',
+                data: [1000, 1000, 500, 400, 12, 0, 0, 0, 0, 0],
+                backgroundColor: 'rgba(59, 130, 246, 0.7)', // blue-500 dengan transparansi
+                borderColor: 'rgba(59, 130, 246, 1)',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        };
+
+        const chartConfig = {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#1e293b',
+                        titleFont: { size: 16 },
+                        bodyFont: { size: 14 },
+                        padding: 12,
+                        cornerRadius: 6,
+                        boxPadding: 4
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#e5e7eb' },
+                        ticks: { font: { size: 12, family: "'Inter', sans-serif" } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 12, family: "'Inter', sans-serif" } }
+                    }
+                }
+            }
+        };
+
+        // --- Logika Navigasi Halaman ---
+        
+        /**
+         * Menampilkan halaman yang dipilih dan menyembunyikan yang lain.
+         * Juga mengatur status aktif pada link navigasi.
+         * @param {string} pageId - ID elemen halaman yang akan ditampilkan (cth: 'page-home')
+         */
+        function showPage(pageId) {
+            // Sembunyikan semua halaman
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            // Tampilkan halaman yang dipilih
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.remove('hidden');
+            }
+
+            // Atur status aktif pada link navigasi
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active-link');
+                    link.classList.remove('inactive-link');
+                } else {
+                    link.classList.add('inactive-link');
+                    link.classList.remove('active-link');
+                }
+            });
+            
+            // Pindah ke atas halaman
+            window.scrollTo(0, 0);
+        }
+
+        // --- Inisialisasi ---
+        window.addEventListener('load', () => {
+            // Render Chart
+            const ctx = document.getElementById('salesChart');
+            if (ctx) {
+                new Chart(ctx, chartConfig);
+            }
+
+            // Tambahkan event listener ke semua link navigasi
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // Mencegah link # melompat
+                    const pageId = e.currentTarget.dataset.page;
+                    showPage(pageId);
+                });
+            });
+
+            // Tampilkan halaman default (page-home) saat memuat
+            showPage('page-home');
+        });
+    </script>
+
+</body>
+</html>
