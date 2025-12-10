@@ -10,214 +10,412 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #050505; /* Hitam pekat */
+            color: #e5e5e5;
+            overflow-x: hidden;
         }
-        /* Style kustom untuk meniru aksen biru dari gambar */
+        
+        /* Aksen Merah */
         .title-accent {
-            border-left: 4px solid #3b82f6; /* Tailwind blue-500 */
-            padding-left: 0.75rem;
+            border-left: 4px solid #dc2626; /* red-600 */
+            padding-left: 1rem;
         }
-        /* Kelas untuk link navigasi aktif */
+
+        /* Styling Navigasi */
+        .nav-link {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
         .active-link {
-            color: white;
+            color: #ffffff;
             font-weight: 600;
-            border-bottom: 2px solid #3b82f6; /* blue-500 */
         }
-        /* Kelas untuk link navigasi non-aktif */
         .inactive-link {
-            color: #d1d5db; /* gray-300 */
+            color: #9ca3af; /* gray-400 */
         }
         .inactive-link:hover {
-            color: white;
+            color: #dc2626; /* red-600 hover */
         }
-        /* Latar belakang hero untuk home (meniru screenshot) */
-        .home-hero-bg {
-            background-color: #1e293b;
+
+        /* Kartu Gelap */
+        .dark-card {
+            background-color: #111216; /* Abu sangat gelap */
+            border: 1px solid #2d2d30;
+            border-radius: 1rem;
+        }
+
+        /* Canvas untuk Jaringan */
+        #networkContainer {
+            position: relative;
+            width: 100%;
+            height: 400px; 
+            overflow: hidden;
+            border-radius: 1rem;
+            border: 1px solid #2d2d30;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+        }
+        #networkCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col">
 
-    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold lowercase nav-link" data-page="page-home">scrapscrap</a>
-            
-            <div class="flex space-x-6 items-center">
-                <a href="#" class="nav-link active-link" data-page="page-home">Home</a>
-                <a href="#" class="nav-link inactive-link" data-page="page-tentang">PT. GBB</a>
+    <header class="bg-black/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-red-600 text-3xl font-bold">&bull;</span>
+                <a href="#" class="text-2xl font-bold tracking-wide text-white nav-link" data-page="page-home">SCRAPSCRAP</a>
             </div>
+            
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#" class="nav-link active-link text-sm uppercase tracking-wider" data-page="page-home">Home</a>
+                <a href="#" class="nav-link inactive-link text-sm uppercase tracking-wider" data-page="page-tentang">PT. GBB</a>
+            </div>
+
+            <div></div>
         </nav>
     </header>
 
     <main class="flex-grow">
         
         <div id="page-home" class="page-content">
-            <div class="home-hero-bg">
-                <div class="container mx-auto px-6 pt-24 pb-32 text-center text-white">
-                    <h1 class="text-5xl font-bold mb-4">Web Data Insights: Our Findings.</h1>
-                    <p class="text-xl text-gray-200">more than just raw data; it's the culmination of our intensive web extraction operations. We transform complex, unstructured information from across the web into structured, actionable intelligence. Explore our analysis to understand the key trends, patterns, and strategic insights we've uncovered.</p>
+            
+            <div class="relative overflow-hidden py-16 md:py-24">
+                <div class="absolute top-0 left-0 w-96 h-96 bg-red-600 rounded-full mix-blend-multiply filter blur-3xl opacity-5 animate-blob pointer-events-none"></div>
+                
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                        
+                        <div class="lg:w-1/2 z-10">
+                            <div class="border-l-4 border-red-600 pl-6 mb-8">
+                                <h1 class="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                                    Web Data <span class="text-red-600">Insights</span><br>
+                                    Uncover the Hidden.
+                                </h1>
+                            </div>
+                            <p class="text-xl text-gray-400 leading-relaxed">
+                                More than just raw data; it's the culmination of our intensive web extraction operations. We transform complex, unstructured information into structured, actionable intelligence.
+                            </p>
+                        </div>
+
+                        <div class="lg:w-1/2 w-full">
+                            <div id="networkContainer">
+                                <canvas id="networkCanvas"></canvas>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
-            <div class="container mx-auto px-6 py-12 -mt-16">
+            <div class="container mx-auto px-6 py-12">
                 <div class="flex flex-col lg:flex-row gap-8">
 
                     <main class="w-full lg:w-2/3 space-y-8">
-                        <section class="bg-white p-6 rounded-lg shadow-md">
-                            <h2 class="text-2xl font-semibold mb-5 title-accent">Harga Produk yang Ditawarkan</h2>
-                            <p class="text-gray-600 mb-6">Grafik ini menunjukkan harga 10 produk teratas yang berhasil di-scrapping dari situs target.</p>
+                        
+                        <section class="dark-card p-8">
+                            <div class="flex justify-between items-end mb-6">
+                                <div>
+                                    <h2 class="text-2xl font-bold text-white mb-2 title-accent">Statistik Harga</h2>
+                                    <p class="text-gray-400 text-sm">Top 10 produk hasil scraping dari situs target.</p>
+                                </div>
+                                <span class="text-red-500 bg-red-500/10 px-3 py-1 rounded text-xs font-mono">LIVE DATA</span>
+                            </div>
                             <div class="h-96 w-full">
                                 <canvas id="salesChart"></canvas>
                             </div>
                         </section>
-                        <section class="bg-white p-6 rounded-lg shadow-md">
-                            <h2 class="text-2xl font-semibold mb-6 title-accent">Produk Paling Sering Muncul</h2>
+
+                        <section class="dark-card p-8">
+                            <h2 class="text-2xl font-bold text-white mb-8 title-accent">Top Frequency Products</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                                    <img src="gift.jpg" alt="Produk 1" class="w-full h-40 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="font-semibold text-lg">Gift</h3>
-                                        <p class="text-gray-600 text-sm">Muncul 30 kali</p>
+                                <div class="group bg-black border border-gray-800 rounded-xl overflow-hidden hover:border-red-600 transition-colors">
+                                    <div class="relative h-40 overflow-hidden">
+                                        <img src="gift.jpg" alt="Gift" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                                    </div>
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-lg text-white mb-1">Gift Cards</h3>
+                                        <p class="text-gray-500 text-sm flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-600 rounded-full"></span> 30 Ditemukan
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                                    <img src="card.png" alt="Produk 2" class="w-full h-40 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="font-semibold text-lg">Card</h3>
-                                        <p class="text-gray-600 text-sm">Muncul 23 kali</p>
+                                <div class="group bg-black border border-gray-800 rounded-xl overflow-hidden hover:border-red-600 transition-colors">
+                                    <div class="relative h-40 overflow-hidden">
+                                        <img src="card.png" alt="Card" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                                    </div>
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-lg text-white mb-1">Credit Cards</h3>
+                                        <p class="text-gray-500 text-sm flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-600 rounded-full"></span> 23 Ditemukan
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                                    <img src="cvv.jpg" alt="Produk 3" class="w-full h-40 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="font-semibold text-lg">CVV & Card</h3>
-                                        <p class="text-gray-600 text-sm">Muncul 17 kali</p>
+                                <div class="group bg-black border border-gray-800 rounded-xl overflow-hidden hover:border-red-600 transition-colors">
+                                    <div class="relative h-40 overflow-hidden">
+                                        <img src="cvv.jpg" alt="CVV" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                                    </div>
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-lg text-white mb-1">CVV & Fullz</h3>
+                                        <p class="text-gray-500 text-sm flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-600 rounded-full"></span> 17 Ditemukan
+                                        </p>
                                     </div>
                                 </div>
-                                
-                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                                    <img src="idc.jpg" alt="Produk 4" class="w-full h-40 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="font-semibold text-lg">IDs</h3>
-                                        <p class="text-gray-600 text-sm">Muncul 14 kali</p>
+                                <div class="group bg-black border border-gray-800 rounded-xl overflow-hidden hover:border-red-600 transition-colors">
+                                    <div class="relative h-40 overflow-hidden">
+                                        <img src="idc.jpg" alt="IDs" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                                    </div>
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-lg text-white mb-1">Personal IDs</h3>
+                                        <p class="text-gray-500 text-sm flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-600 rounded-full"></span> 14 Ditemukan
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                                    <img src="pngtree-certificate-icon-isolated-on-abstract-background-png-image_1752108.jpg" alt="Produk 5" class="w-full h-40 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="font-semibold text-lg">License</h3>
-                                        <p class="text-gray-600 text-sm">Muncul 13 kali</p>
+                                <div class="group bg-black border border-gray-800 rounded-xl overflow-hidden hover:border-red-600 transition-colors">
+                                    <div class="relative h-40 overflow-hidden">
+                                        <img src="pngtree-certificate-icon-isolated-on-abstract-background-png-image_1752108.jpg" alt="License" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                                    </div>
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-lg text-white mb-1">Licenses</h3>
+                                        <p class="text-gray-500 text-sm flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-600 rounded-full"></span> 13 Ditemukan
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-                                    <img src="license.png" alt="Produk 6" class="w-full h-40 object-cover">
-                                    <div class="p-4">
-                                        <h3 class="font-semibold text-lg">Drivers</h3>
-                                        <p class="text-gray-600 text-sm">Muncul 12 kali</p>
+                                <div class="group bg-black border border-gray-800 rounded-xl overflow-hidden hover:border-red-600 transition-colors">
+                                    <div class="relative h-40 overflow-hidden">
+                                        <img src="license.png" alt="Drivers" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                                    </div>
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-lg text-white mb-1">Drivers Lic.</h3>
+                                        <p class="text-gray-500 text-sm flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-600 rounded-full"></span> 12 Ditemukan
+                                        </p>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         </section>
                     </main>
 
                     <aside class="w-full lg:w-1/3 space-y-8">
-                        <section class="bg-white p-6 rounded-lg shadow-md">
-                            <h2 class="text-2xl font-semibold mb-5 title-accent">Profil Perusahaan</h2>
-                            <div class="flex items-center space-x-4 mb-4">
-                                <img src="PT_GBB_LOGO-removebg-preview.png" alt="Logo PT GBB" class="rounded-full w-20 h-20 border-4 border-gray-200">
+                        
+                        <section class="dark-card p-8 bg-gradient-to-br from-[#111216] to-[#1a1a1a]">
+                            <h2 class="text-xl font-bold text-white mb-6 title-accent">Target Profile</h2>
+                            <div class="flex items-center space-x-4 mb-6">
+                                <div class="relative">
+                                    <div class="absolute inset-0 bg-red-600 blur opacity-20 rounded-full"></div>
+                                    <img src="PT_GBB_LOGO-removebg-preview.png" alt="Logo PT GBB" class="relative rounded-full w-16 h-16 border-2 border-gray-700 bg-black p-1">
+                                </div>
                                 <div>
-                                    <h3 class="text-xl font-bold text-gray-800">PT GBB</h3>
-                                    <p class="text-gray-600">Data Intelligence & Security</p>
+                                    <h3 class="text-lg font-bold text-white">PT GBB</h3>
+                                    <p class="text-red-500 text-sm font-medium">Data Intelligence</p>
                                 </div>
                             </div>
-                            <p class="text-gray-700">
-                                PT GBB adalah perusahaan terdepan dalam analisis data dan intelijen siber. Laporan ini disusun untuk memberikan wawasan mendalam...
+                            <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                                PT GBB adalah perusahaan terdepan dalam analisis data dan intelijen siber. Laporan ini memberikan wawasan mendalam mengenai temuan scraping.
                             </p>
+                            
+                            <a href="#" data-page="page-tentang" class="nav-link block text-center w-full py-2 rounded border border-gray-700 text-gray-300 hover:text-white hover:border-red-600 transition text-sm">
+                                View Full Profile
+                            </a>
                         </section>
-                        <section class="bg-white p-6 rounded-lg shadow-md">
-                            <h2 class="text-2xl font-semibold mb-5 title-accent">Wordcloud Kategori</h2>
-                            <p class="text-gray-600 mb-4">Visualisasi kata yang paling sering muncul dalam deskripsi dan kategori produk.</p>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
-                                <img src="wordcloud.png" alt="Wordcloud" class="w-full rounded">
+
+                        <section class="dark-card p-6">
+                            <h2 class="text-xl font-bold text-white mb-4 title-accent">Keywords Analysis</h2>
+                            <div class="border border-gray-800 rounded-lg p-4 bg-black">
+                                <img src="wordcloud.png" alt="Wordcloud" class="w-full rounded opacity-80 hover:opacity-100 transition">
                             </div>
                         </section>
 
-                        <section class="bg-white p-6 rounded-lg shadow-md">
-                            <h2 class="text-2xl font-semibold mb-5 title-accent">Wordcloud Kategori</h2>
-                            <p class="text-gray-600 mb-4">Visualisasi kata yang paling sering muncul dalam deskripsi dan kategori produk.</p>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
-                                <img src="wordcloud 2.png" alt="Wordcloud" class="w-full rounded">
+                        <section class="dark-card p-6">
+                            <h2 class="text-xl font-bold text-white mb-4 title-accent">Category Cloud</h2>
+                            <div class="border border-gray-800 rounded-lg p-4 bg-black">
+                                <img src="wordcloud 2.png" alt="Wordcloud" class="w-full rounded opacity-80 hover:opacity-100 transition">
                             </div>
                         </section>
-                        </aside>
-                    </div>
+                    </aside>
+                </div>
             </div>
         </div>
 
         <div id="page-tentang" class="page-content hidden">
-            <div class="bg-slate-800 text-white shadow-lg">
+            <div class="bg-gradient-to-r from-black via-[#0a0a0a] to-[#111] border-b border-gray-800">
                 <div class="container mx-auto px-6 py-24 text-center">
                     <h1 class="text-5xl font-bold text-white mb-4">Tentang Kami</h1>
-                    <p class="text-xl text-gray-200">Mengenal PT GBB dan Tim Scrapscrap</p>
+                    <p class="text-xl text-gray-400">Mengenal PT GBB dan Tim Scrapscrap</p>
                 </div>
             </div>
             
             <div class="container mx-auto px-6 py-16">
-                 <section class="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
-                    <h2 class="text-3xl font-semibold mb-6 title-accent">PT GBB: Data Intelligence & Security</h2>
-                    <div class="flex flex-col md:flex-row items-center gap-8 mb-8">
-                        <img src="PT_GBB_LOGO-removebg-preview.png" alt="Logo PT GBB" class="rounded-full w-40 h-40 border-8 border-gray-200">
-                        <p class="text-gray-700 text-lg">
-                            PT GBB adalah perusahaan teknologi terdepan yang berfokus pada penyediaan solusi intelijen data dan keamanan siber. Sejak didirikan, kami berkomitmen untuk membantu organisasi menavigasi lanskap digital yang kompleks dengan data yang akurat dan dapat ditindaklanjuti.
-                        </p>
+                 <section class="dark-card p-10 max-w-5xl mx-auto">
+                    <h2 class="text-3xl font-bold mb-8 title-accent text-white">Data Intelligence & Security</h2>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-10 mb-12">
+                        <img src="PT_GBB_LOGO-removebg-preview.png" alt="Logo PT GBB" class="rounded-full w-40 h-40 border-4 border-gray-800 bg-black p-2">
+                        <div class="text-gray-300 space-y-4">
+                            <p class="text-lg">
+                                PT GBB adalah perusahaan teknologi terdepan yang berfokus pada penyediaan solusi intelijen data dan keamanan siber.
+                            </p>
+                            <p>
+                                <span class="text-red-500 font-bold">Misi Kami:</span> Memberikan wawasan data yang tak tertandingi melalui teknologi scraping dan analisis data yang etis.
+                            </p>
+                        </div>
                     </div>
 
-                    <h3 class="text-2xl font-semibold mb-4">Mision</h3>
-                    <p class="text-gray-700 mb-6">
-                        Memberikan wawasan data yang tak tertandingi melalui teknologi scrapping dan analisis data yang etis dan inovatif, memberdayakan klien kami untuk membuat keputusan yang lebih baik dan lebih aman.
-                    </p>
-
-                    <h3 class="text-2xl font-semibold mb-4">Our Team</h3>
-                    <p class="text-gray-700 mb-6">
-                        Proyek Scrapscrap dipimpin oleh tim analis data, insinyur perangkat lunak, dan pakar keamanan siber yang berdedikasi.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                        <div>
-                            <img src="boys.png" class="w-32 h-32 rounded-full mx-auto mb-2 border-4 border-gray-30M">
-                            <h4 class="font-semibold text-lg">Chilwin</h4>
-                            <p class="text-gray-600">Programmer</p>
+                    <h3 class="text-2xl font-bold text-white mb-8 border-b border-gray-800 pb-4">Executive Team</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                        <div class="group">
+                            <div class="relative w-32 h-32 mx-auto mb-4">
+                                <div class="absolute inset-0 bg-red-600 rounded-full blur opacity-0 group-hover:opacity-40 transition duration-500"></div>
+                                <img src="wanita.jpg" class="relative w-full h-full rounded-full border-2 border-gray-700 group-hover:border-red-600 transition">
+                            </div>
+                            <h4 class="font-bold text-lg text-white">Shelly</h4>
+                            <p class="text-red-500 text-sm uppercase tracking-wide">Project Manager</p>
                         </div>
-                        <div>
-                            <img src="boys.png" class="w-32 h-32 rounded-full mx-auto mb-2 border-4 border-gray-300">
-                            <h4 class="font-semibold text-lg">Rivian</h4>
-                            <p class="text-gray-600">Analyst</p>
+                        <div class="group">
+                            <div class="relative w-32 h-32 mx-auto mb-4">
+                                <div class="absolute inset-0 bg-red-600 rounded-full blur opacity-0 group-hover:opacity-40 transition duration-500"></div>
+                                <img src="pria.png" class="relative w-full h-full rounded-full border-2 border-gray-700 group-hover:border-red-600 transition">
+                            </div>
+                            <h4 class="font-bold text-lg text-white">Chilwin</h4>
+                            <p class="text-red-500 text-sm uppercase tracking-wide">Programmer</p>
                         </div>
-                        <div>
-                            <img src="boys.png" class="w-32 h-32 rounded-full mx-auto mb-2 border-4 border-gray-300">
-                            <h4 class="font-semibold text-lg">Andri</h4>
-                            <p class="text-gray-600">Documentation</p>
+                        <div class="group">
+                            <div class="relative w-32 h-32 mx-auto mb-4">
+                                <div class="absolute inset-0 bg-red-600 rounded-full blur opacity-0 group-hover:opacity-40 transition duration-500"></div>
+                                <img src="pria.png" class="relative w-full h-full rounded-full border-2 border-gray-700 group-hover:border-red-600 transition">
+                            </div>
+                            <h4 class="font-bold text-lg text-white">Rivian</h4>
+                            <p class="text-red-500 text-sm uppercase tracking-wide">Analyst</p>
+                        </div>
+                        <div class="group">
+                            <div class="relative w-32 h-32 mx-auto mb-4">
+                                <div class="absolute inset-0 bg-red-600 rounded-full blur opacity-0 group-hover:opacity-40 transition duration-500"></div>
+                                <img src="pria.png" class="relative w-full h-full rounded-full border-2 border-gray-700 group-hover:border-red-600 transition">
+                            </div>
+                            <h4 class="font-bold text-lg text-white">Andri</h4>
+                            <p class="text-red-500 text-sm uppercase tracking-wide">Documentation</p>
                         </div>
                     </div>
                  </section>
             </div>
         </div>
 
-        <div id="page-sample" class="page-content hidden">
-            <div class="container mx-auto px-6 py-24 text-center">
-                <h1 class="text-5xl font-bold text-gray-800 mb-4">Sample Page</h1>
-                <p class="text-xl text-gray-600">Ini adalah halaman contoh.</p>
-            </div>
-        </div>
-
     </main>
 
-    <footer class="bg-slate-900 text-gray-400 mt-12 py-8">
-        <div class="container mx-auto px-6 text-center">
+    <footer class="bg-black border-t border-gray-900 text-gray-500 mt-12 py-10">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
             <p>&copy; 2024 Scrapscrap - PT GBB. Seluruh hak cipta dilindungi.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-red-600 transition">Privacy</a>
+                <a href="#" class="hover:text-red-600 transition">Terms</a>
+                <a href="#" class="hover:text-red-600 transition">Contact</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        // --- Data & Konfigurasi Chart.js ---
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('networkContainer');
+        
+        let width, height;
+        let particles = [];
+        const particleCount = 70; 
+        const connectionDistance = 100;
+
+        function resizeCanvas() {
+            width = container.clientWidth;
+            height = container.clientHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5; 
+                this.vy = (Math.random() - 0.5) * 0.5; 
+                this.radius = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.8 ? '#dc2626' : '#4b5563'; 
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        const opacity = 1 - distance / connectionDistance;
+                        ctx.strokeStyle = `rgba(220, 38, 38, ${opacity * 0.4})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        initParticles();
+        animate();
+    </script>
+
+    <script>
+        // --- Konfigurasi Chart.js ---
+        Chart.defaults.color = '#9ca3af'; 
+        Chart.defaults.borderColor = '#374151';
+
         const chartData = {
             labels: [
                 'Carded Gift Cards', 'Carded Gift Cards', 'Carded Gift Cards', 'Carded Gift Cards', 'Skip to Content', 
@@ -226,10 +424,11 @@
             datasets: [{
                 label: 'Jumlah Penjualan',
                 data: [1000, 1000, 500, 400, 12, 0, 0, 0, 0, 0],
-                backgroundColor: 'rgba(59, 130, 246, 0.7)', // blue-500 dengan transparansi
-                borderColor: 'rgba(59, 130, 246, 1)',
+                backgroundColor: 'rgba(220, 38, 38, 0.8)', // red-600
+                borderColor: 'rgba(220, 38, 38, 1)',
                 borderWidth: 1,
-                borderRadius: 4
+                borderRadius: 4,
+                hoverBackgroundColor: '#ffffff'
             }]
         };
 
@@ -242,18 +441,20 @@
                 plugins: {
                     legend: { display: false },
                     tooltip: {
-                        backgroundColor: '#1e293b',
-                        titleFont: { size: 16 },
-                        bodyFont: { size: 14 },
+                        backgroundColor: '#000000',
+                        titleColor: '#ffffff',
+                        bodyColor: '#e5e5e5',
+                        borderColor: '#374151',
+                        borderWidth: 1,
                         padding: 12,
-                        cornerRadius: 6,
-                        boxPadding: 4
+                        cornerRadius: 8,
+                        displayColors: false
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: { color: '#e5e7eb' },
+                        grid: { color: '#27272a' },
                         ticks: { font: { size: 12, family: "'Inter', sans-serif" } }
                     },
                     x: {
@@ -265,26 +466,13 @@
         };
 
         // --- Logika Navigasi Halaman ---
-        
-        /**
-         * Menampilkan halaman yang dipilih dan menyembunyikan yang lain.
-         * Juga mengatur status aktif pada link navigasi.
-         * @param {string} pageId - ID elemen halaman yang akan ditampilkan (cth: 'page-home')
-         */
         function showPage(pageId) {
-            // Sembunyikan semua halaman
             const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                page.classList.add('hidden');
-            });
+            pages.forEach(page => page.classList.add('hidden'));
 
-            // Tampilkan halaman yang dipilih
             const activePage = document.getElementById(pageId);
-            if (activePage) {
-                activePage.classList.remove('hidden');
-            }
+            if (activePage) activePage.classList.remove('hidden');
 
-            // Atur status aktif pada link navigasi
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 if (link.dataset.page === pageId) {
@@ -295,30 +483,22 @@
                     link.classList.remove('active-link');
                 }
             });
-            
-            // Pindah ke atas halaman
             window.scrollTo(0, 0);
         }
 
-        // --- Inisialisasi ---
         window.addEventListener('load', () => {
-            // Render Chart
             const ctx = document.getElementById('salesChart');
-            if (ctx) {
-                new Chart(ctx, chartConfig);
-            }
+            if (ctx) new Chart(ctx, chartConfig);
 
-            // Tambahkan event listener ke semua link navigasi
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
-                    e.preventDefault(); // Mencegah link # melompat
+                    e.preventDefault();
                     const pageId = e.currentTarget.dataset.page;
                     showPage(pageId);
                 });
             });
 
-            // Tampilkan halaman default (page-home) saat memuat
             showPage('page-home');
         });
     </script>
